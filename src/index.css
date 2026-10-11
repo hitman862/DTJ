@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-abyss: #070d19;
+  --color-deep: #0a1220;
+  --color-panel: #0e1728;
+  --color-raise: #13203a;
+  --color-hover: #182742;
+  --color-edge: #1b2a47;
+  --color-edge2: #26395f;
+  --color-snow: #e9f0fc;
+  --color-fog: #8ba0c6;
+  --color-dim: #5c7099;
+  --color-up: #3ddc97;
+  --color-dn: #ff6472;
+  --color-gold: #f2b63c;
+  --color-sky: #5aa2ff;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--color-abyss);
+  color: var(--color-snow);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(1100px 520px at 88% -12%, rgba(90, 162, 255, 0.075), transparent 62%),
+    radial-gradient(900px 620px at -8% 112%, rgba(61, 220, 151, 0.05), transparent 60%);
+  background-attachment: fixed;
+}
+
+::selection {
+  background: rgba(61, 220, 151, 0.28);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-edge2) transparent;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-edge2);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- reusable primitives ---------- */
+.card {
+  @apply rounded-lg border border-edge bg-panel;
+}
+.inp {
+  @apply w-full rounded-md border border-edge bg-deep px-3 py-2 text-sm text-snow outline-none transition-colors;
+}
+.inp:focus {
+  border-color: var(--color-sky);
+  box-shadow: 0 0 0 3px rgba(90, 162, 255, 0.14);
+}
+.inp::placeholder {
+  color: var(--color-dim);
+}
+.lbl {
+  @apply mb-1.5 block text-[11px] font-medium uppercase tracking-[0.14em] text-dim;
+}
+
+/* ---------- ambient grid layer ---------- */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(90, 162, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 162, 255, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 78%);
+}
+
+/* ---------- motion ---------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.anim-rise {
+  animation: fadeUp 0.55s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s cubic-bezier(0.22, 0.8, 0.3, 1), transform 0.6s cubic-bezier(0.22, 0.8, 0.3, 1);
+}
+
+@keyframes tickerScroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  animation: tickerScroll 52s linear infinite;
+}
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+.anim-pop {
+  animation: popIn 0.2s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+@keyframes pulseDot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(61, 220, 151, 0.5);
+  }
+  60% {
+    box-shadow: 0 0 0 6px rgba(61, 220, 151, 0);
+  }
+}
+.pulse-dot {
+  animation: pulseDot 2s ease-out infinite;
+}
+
+@keyframes growX {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.anim-grow-x {
+  transform-origin: left center;
+  animation: growX 0.8s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+@keyframes growY {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.anim-grow-y {
+  transform-origin: center bottom;
+  animation: growY 0.7s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.anim-toast {
+  animation: toastIn 0.25s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+@keyframes blurReveal {
+  from {
+    filter: blur(10px);
+    opacity: 0.4;
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+.anim-unblur {
+  animation: blurReveal 0.45s ease-out both;
+}
+
+@keyframes dashDraw {
+  from {
+    stroke-dashoffset: var(--dash, 300);
+  }
+  to {
+    stroke-dashoffset: var(--dash-end, 0);
+  }
+}
+.anim-dash {
+  animation: dashDraw 1s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
